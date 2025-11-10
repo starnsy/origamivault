@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encrypt content | OrigamyVault - Encrypt Content with Password and store it on paper</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         * {
@@ -165,6 +164,22 @@
             text-align: center;
         }
 
+        .qr-item.with-side-layout {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 15px;
+            text-align: left;
+        }
+
+        .qr-item.with-side-layout #qrLinkContainer {
+            flex-shrink: 0;
+        }
+
+        .qr-item.with-side-layout .qr-content {
+            flex: 1;
+        }
+
         .qr-label {
             font-weight: 600;
             color: #745530;
@@ -204,6 +219,64 @@
             background: #218838;
         }
 
+        .encrypted-text-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f1ebda;
+            border-radius: 8px;
+            border: 1px solid #d5b882;
+        }
+
+        .encrypted-text-box h3 {
+            color: #745530;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .encrypted-text-box textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px;
+            border: 1px solid #d5b882;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            background: white;
+            color: #745530;
+            resize: vertical;
+        }
+
+        .decrypt-js-code {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f1ebda;
+            border-radius: 8px;
+            border: 1px solid #d5b882;
+        }
+
+        .decrypt-js-code h3 {
+            color: #745530;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .decrypt-js-code .code {
+            padding: 10px;
+            background: #2d2d2d;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+            color: #a9dc76;
+            overflow-x: auto;
+            cursor: pointer;
+            word-break: break-all;
+            user-select: all;
+        }
+
+        .decrypt-js-code .code:hover {
+            background: #3d3d3d;
+        }
+
         .link {
             text-align: center;
             margin-top: 20px;
@@ -236,6 +309,10 @@
             text-decoration: underline;
         }
 
+        .show-print {
+            display: none;
+        }
+
         @media print {
             @page {
                 size: portrait;
@@ -243,6 +320,10 @@
 
             .dont-print {
                 display: none;
+            }
+
+            .show-print {
+                display: block;
             }
 
             .print-button {
@@ -272,6 +353,35 @@
             .qr-container {
                 flex-direction: column;
                 align-items: center;
+            }
+
+            .qr-item:first-child {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 15px;
+                text-align: left;
+            }
+
+            .qr-item:first-child #qrLinkContainer {
+                flex-shrink: 0;
+                order: -1;
+            }
+
+            .decrypt-js-code {
+                border: 1px solid black;
+                padding: 5px;
+                background: white;
+            }
+
+            .decrypt-js-code h3 {
+                color: black;
+            }
+
+            .decrypt-js-code .code {
+                background: white;
+                color: black;
+                border: none;
             }
         }
     </style>
@@ -310,7 +420,7 @@
     </div>
 
     <script>
-        function encryptAndGenerateQR() {
+        async function encryptAndGenerateQR() {
             const content = document.getElementById('content').value;
             const password = document.getElementById('password').value;
 
@@ -324,8 +434,50 @@
                 return;
             }
 
-            // Encrypt the content using AES
-            const encrypted = CryptoJS.AES.encrypt(content, password).toString();
+            // Encrypt the content using Web Crypto API (AES-GCM, 128-bit)
+            const encoder = new TextEncoder();
+            const passwordBytes = encoder.encode(password);
+            const contentBytes = encoder.encode(content);
+
+            // Generate a random salt for key derivation
+            const salt = crypto.getRandomValues(new Uint8Array(16));
+
+            // Derive key from password using PBKDF2
+            const keyMaterial = await crypto.subtle.importKey(
+                'raw',
+                passwordBytes,
+                'PBKDF2',
+                false,
+                ['deriveKey']
+            );
+
+            const key = await crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: salt,
+                    iterations: 100000,
+                    hash: 'SHA-256'
+                },
+                keyMaterial,
+                { name: 'AES-GCM', length: 128 },
+                false,
+                ['encrypt']
+            );
+
+            // Generate random IV
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+
+            // Encrypt
+            const ciphertext = await crypto.subtle.encrypt(
+                { name: 'AES-GCM', iv: iv },
+                key,
+                contentBytes
+            );
+
+            // Format: base64(salt):base64(iv):base64(ciphertext)
+            const encrypted = btoa(String.fromCharCode(...salt)) + ':' +
+                            btoa(String.fromCharCode(...iv)) + ':' +
+                            btoa(String.fromCharCode(...new Uint8Array(ciphertext)));
 
             // Change the title
             document.querySelector('h1').textContent = 'Encrypted content';
@@ -342,19 +494,20 @@
             qrcodeDiv.innerHTML = `
                 <div class="qr-title">Print these QR codes</div>
 
-                <div class="explanation">
+                <div class="explanation dont-print">
                     These two QR codes are needed to decrypt the content later. Scan the first QR code to open the decrypt web app, and then scan the second QR code on that page to retrieve the encrypted data.
                 </div>
 
                 <div class="qr-container">
                     <div class="qr-item">
-                        <div class="qr-label">1. Decrypt App Link</div>
+                        <div class="qr-label dont-print">1. Decrypt App Link</div>
                         <div id="qrLinkContainer"></div>
                         <div class="qr-description">
+                            <div class="qr-label show-print">1. Decrypt App Link</div>
                             Scan code with your phone camera to open decriptor on this url: ${decryptUrl}. <br/>
                             
                             <div style="margin-top: 10px; font-size: 90%">
-                                Alternatively, the full source code is also available on Github & GitLab: <br/>
+                                Alternatively, the full source code is also available on: <br/>
                                 https://github.com/declegacy/origamivault <br/>
                                 https://gitlab.com/declegacy/origamivault
                             </div>
@@ -365,6 +518,11 @@
                         <div class="qr-label">2. Encrypted Data</div>
                         <div id="qrDataContainer"></div>
                         <div class="qr-description">Scan this code on the decrypt web app</div>
+
+                        <div class="decrypt-js-code">
+                            <h3>Emergency Javascript decryption code</h3>
+                            <div class="code" onclick="navigator.clipboard.writeText(this.textContent).then(()=>{this.style.background='#4d4d4d'; setTimeout(()=>this.style.background='#2d2d2d', 200)})" title="Click to copy"><code>(async()=>{try{const p=prompt("Enter password:");if(!p)return;const [s,i,c]="${encrypted.replace(/"/g, '\\"')}".split(":");const salt=new Uint8Array(atob(s).split("").map(x=>x.charCodeAt(0)));const iv=new Uint8Array(atob(i).split("").map(x=>x.charCodeAt(0)));const ciphertext=new Uint8Array(atob(c).split("").map(x=>x.charCodeAt(0)));const keyMaterial=await crypto.subtle.importKey("raw",new TextEncoder().encode(p),"PBKDF2",false,["deriveKey"]);const key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:100000,hash:"SHA-256"},keyMaterial,{name:"AES-GCM",length:128},false,["decrypt"]);const decrypted=await crypto.subtle.decrypt({name:"AES-GCM",iv:iv},key,ciphertext);alert(new TextDecoder().decode(decrypted))}catch(e){alert("Failed")}})()</code></div>
+                        </div>
                     </div>
                 </div>
 
@@ -384,8 +542,8 @@
             // Generate QR code for decrypt link
             new QRCode(document.getElementById('qrLinkContainer'), {
                 text: decryptUrl,
-                width: 200,
-                height: 200,
+                width: 150,
+                height: 150,
                 colorDark: "#000000",
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.M
@@ -394,8 +552,8 @@
             // Generate QR code for encrypted data
             new QRCode(document.getElementById('qrDataContainer'), {
                 text: encrypted,
-                width: 200,
-                height: 200,
+                width: 300,
+                height: 300,
                 colorDark: "#000000",
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.H

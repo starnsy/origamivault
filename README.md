@@ -16,10 +16,11 @@ You can share the encryption password and the location of the paper storage with
 
 ## Features
 
-- 🔒 AES-256 encryption for secure messaging
+- 🔒 AES-GCM 128-bit encryption using Web Crypto API (no external dependencies)
 - 📱 QR code generation and scanning
 - 🚀 No server required - runs entirely in the browser
-- 🔐 Password-protected decryption
+- 🔐 Password-protected decryption with PBKDF2 key derivation
+- 💾 Works completely offline - no CDN dependencies for encryption
 
 ## Redundancy
 
@@ -52,10 +53,11 @@ Simply open `index.html` in your web browser or visit the live app at: https://d
 
 ## Technologies
 
-- CryptoJS for AES encryption
-- QRCode.js for QR code generation
-- html5-qrcode for camera scanning
+- **Web Crypto API** for AES-GCM encryption (native browser crypto, no external library)
+- **QRCode.js** for QR code generation
+- **html5-qrcode** for camera scanning
 - Pure HTML, CSS, and JavaScript
+- **100% offline capable** - encryption/decryption works without internet
 
 ## License
 
