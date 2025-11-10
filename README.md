@@ -1,6 +1,6 @@
 # QR code generator for your secrets
 
-[A simple web app](https://declegacy.github.io/secretqr/) to encrypt & decrypt text messages and share them securely via QR codes.
+[A simple web app](https://declegacy.github.io/origamivault/) to encrypt & decrypt text messages and share them securely via QR codes.
 
 ## How It Works
 
@@ -17,7 +17,7 @@
 
 ## Usage
 
-Simply open `index.html` in your web browser or visit the live app at: https://declegacy.github.io/secretqr/
+Simply open `index.html` in your web browser or visit the live app at: https://declegacy.github.io/origamivault/
 
 ### Encrypt a Message
 

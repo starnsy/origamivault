@@ -270,7 +270,7 @@
     </div>
 
     <div class="footer">
-        <a href="https://github.com/declegacy/secretqr" target="_blank">SecretQR</a> is open source project
+        <a href="https://github.com/declegacy/origamivault" target="_blank">OrigamiVault</a> is open source project
     </div>
 
     <script>
@@ -297,20 +297,24 @@
             // Hide the form section
             document.getElementById('formSection').style.display = 'none';
 
+            // Get current base URL dynamically
+            const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
+            const decryptUrl = baseUrl + '/decrypt.html';
+
             // Clear previous QR code if any
             const qrcodeDiv = document.getElementById('qrcode');
             qrcodeDiv.innerHTML = `
                 <div class="qr-title">Print these QR codes</div>
 
                 <div class="explanation">
-                    These two QR codes are needed to decrypt the content later. Scan the first QR code to open the decrypt page, and then scan the second QR code on that page to retrieve the encrypted data. 
+                    These two QR codes are needed to decrypt the content later. Scan the first QR code to open the decrypt page, and then scan the second QR code on that page to retrieve the encrypted data.
                 </div>
 
                 <div class="qr-container">
                     <div class="qr-item">
                         <div class="qr-label">1. Decrypt Link</div>
                         <div id="qrLinkContainer"></div>
-                        <div class="qr-description">Scan to open decryptor in your web browser: https://declegacy.github.io/secretqr/decrypt.html</div>
+                        <div class="qr-description">Scan to open decryptor in your web browser: ${decryptUrl}</div>
                     </div>
 
                     <div class="qr-item">
@@ -326,7 +330,7 @@
 
             // Generate QR code for decrypt link
             new QRCode(document.getElementById('qrLinkContainer'), {
-                text: 'https://declegacy.github.io/secretqr/decrypt.html',
+                text: decryptUrl,
                 width: 200,
                 height: 200,
                 colorDark: "#000000",

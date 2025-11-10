@@ -205,7 +205,7 @@
     </div>
 
     <div class="footer">
-        <a href="https://github.com/declegacy/secretqr" target="_blank">SecretQR</a> is open source project
+        <a href="https://github.com/declegacy/origamivault" target="_blank">OrigamiVault</a> is open source project
     </div>
 
     <script>
@@ -249,9 +249,10 @@
         }
 
         function onScanSuccess(decodedText, decodedResult) {
-            // Check if the scanned QR code is the decrypt link
-            if (decodedText.includes('declegacy.github.io/secretqr/decrypt') ||
-                decodedText.includes('decrypt.html')) {
+            // Check if the scanned QR code is a URL (decrypt link)
+            // This checks if it's a URL pattern rather than encrypted data
+            const urlPattern = /^https?:\/\//i;
+            if (urlPattern.test(decodedText) && decodedText.toLowerCase().includes('decrypt')) {
                 stopScanner();
                 document.getElementById('errorMsg').textContent = 'You scanned QR Code #1 (Decrypt Link). Please scan QR Code #2 (Encrypted Data) instead.';
                 document.getElementById('errorMsg').style.display = 'block';
