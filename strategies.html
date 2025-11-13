@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backup Strategies | OrigamiVault - Advanced Security</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #d5b882 0%, #f1ebda 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(116, 85, 48, 0.2);
+            margin: 20px 0;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            max-width: 120px;
+            height: auto;
+            margin: 0 auto 10px;
+        }
+
+        h1 {
+            color: #745530;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 27px;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, #745530 0%, #d5b882 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: #745530;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            color: #555;
+            line-height: 1.8;
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .strategy {
+            background: #f1ebda;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .strategy h2 {
+            margin-top: 0;
+        }
+
+        .strategy ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .strategy ul li {
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .strategy ul li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #745530;
+            font-weight: bold;
+        }
+
+        strong {
+            color: #745530;
+        }
+
+        .cta {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 30px;
+            background: linear-gradient(135deg, #745530 0%, #d5b882 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s;
+            margin: 5px;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #745530;
+        }
+
+        .footer a {
+            color: #745530;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="logo.png" alt="OrigamiVault Logo" class="logo">
+        </div>
+        <h1><span>OrigamiVault</span> - Backup Strategies</h1>
+
+        <p>Advanced strategies for securing your encrypted backups and ensuring long-term access to your sensitive data.</p>
+
+        <div class="strategy">
+            <h2>🔐 Backup Strategies</h2>
+            <ul>
+                <li><strong>Store QR code separately from password</strong> — Never keep them together</li>
+                <li><strong>Make 2–3 redundant copies</strong> — Protect against loss or damage</li>
+                <li><strong>Use fireproof safe / safe deposit box</strong> — Physical security matters</li>
+            </ul>
+        </div>
+
+        <div class="strategy">
+            <h2>🪙 Crypto Strategies</h2>
+            <ul>
+                <li><strong>Split seed: first 8 words plaintext + last 4–16 encrypted</strong> — Defense in depth</li>
+                <li><strong>Store encrypted part separately</strong> — Two locations, two layers of security</li>
+                <li><strong>Use independent password for encryption</strong> — Different from your wallet password</li>
+            </ul>
+            <p style="margin-top: 15px;">Example: Write words 1-8 of your seed phrase on paper in a safe. Encrypt words 9-12 with OrigamiVault and store in a different location.</p>
+        </div>
+
+        <div class="strategy">
+            <h2>👥 Split-Trust Strategies</h2>
+            <ul>
+                <li><strong>One person gets encrypted QR</strong> — They hold the data but can't read it</li>
+                <li><strong>Another person gets password</strong> — They have the key but no data</li>
+                <li><strong>Neither can access alone</strong> — Shamir-like security, but simpler</li>
+            </ul>
+            <p style="margin-top: 15px;">Perfect for: Emergency access, digital inheritance, business continuity planning.</p>
+        </div>
+
+        <div class="strategy">
+            <h2>🧳 Emergency Access / Digital Inheritance</h2>
+            <ul>
+                <li><strong>Instructions for trusted person</strong> — Write clear recovery steps</li>
+                <li><strong>Legacy handover</strong> — Plan for access after death or incapacitation</li>
+                <li><strong>What to include in emergency envelope:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>Printed QR codes</li>
+                        <li>Instructions: "Visit decrypt.html and scan QR code"</li>
+                        <li>Password hint (stored separately) or given to second person</li>
+                        <li>List of what's encrypted: "Password manager master password"</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="strategy">
+            <h2>🛡 Physical Security Strategies</h2>
+            <ul>
+                <li><strong>Avoid moisture / exposure</strong> — Store in dry, climate-controlled location</li>
+                <li><strong>Use archival paper (optional)</strong> — Acid-free paper lasts 100+ years</li>
+                <li><strong>Re-print every X years</strong> — Test and refresh backups every 5-10 years</li>
+            </ul>
+            <p style="margin-top: 15px;">Pro tip: Laminate QR codes for extra protection, or use a protective sleeve.</p>
+        </div>
+
+        <h2 style="margin-top: 40px;">💡 Best Practices Summary</h2>
+
+        <p><strong>For maximum security:</strong></p>
+        <ul>
+            <li>Use split-trust (separate people for QR and password)</li>
+            <li>Make multiple copies in different locations</li>
+            <li>Test recovery process annually</li>
+            <li>Keep one copy off-site (safe deposit box)</li>
+        </ul>
+
+        <p style="margin-top: 15px;"><strong>For crypto seed phrases:</strong></p>
+        <ul>
+            <li>Split the seed (plaintext + encrypted)</li>
+            <li>Store in fireproof safe or safe deposit box</li>
+            <li>Never store full seed digitally</li>
+            <li>Use different passwords for different wallets</li>
+        </ul>
+
+        <div class="cta">
+            <a href="encrypt.html" class="button">Start Encrypting</a>
+            <a href="why.html" class="button">Why OrigamiVault?</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="https://github.com/declegacy/origamivault" target="_blank">OrigamiVault</a> is an open source project
+    </div>
+</body>
+</html>
