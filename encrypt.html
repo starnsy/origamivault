@@ -550,7 +550,7 @@
                 </div>
 
                 <div class="info-box">
-                    <div class="info-box-title">Alternative decryption solution - OCR & javascript</div>
+                    <div class="info-box-title">Alternative decryption method - OCR & JavaScript</div>
                     <div class="info-box-content">
                         <code style="text-align: left">(async()=>{try{const p=prompt("Enter password:");if(!p)return;const c="${encryptedBase64.replace(/"/g, '\\"')}";const salt=new Uint8Array(16);const iv=new Uint8Array(16);const ciphertext=new Uint8Array(atob(c).split("").map(x=>x.charCodeAt(0)));const keyMaterial=await crypto.subtle.importKey("raw",new TextEncoder().encode(p),"PBKDF2",false,["deriveKey"]);const key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:100000,hash:"SHA-256"},keyMaterial,{name:"AES-CBC",length:128},false,["decrypt"]);const decrypted=await crypto.subtle.decrypt({name:"AES-CBC",iv:iv},key,ciphertext);alert(new TextDecoder().decode(decrypted))}catch(e){alert("Wrong Password")}})()</code>
                     </div>
