@@ -2,15 +2,16 @@
 
 **Offline. Secure. Printable. Recoverable.**
 
-OrigamiVault is a tiny web app for encrypting sensitive data and storing it on paper using QR codes or OCR-friendly printed code.  
+OrigamiVault is a tiny web app for encrypting sensitive data and storing it on paper using QR codes or OCR-friendly printed code.
 Nothing is uploaded or stored online. Everything runs locally in your browser.
 
 👉 **Live app:** https://declegacy.github.io/origamivault/
+👉 **Video Demo:** https://www.youtube.com/watch?v=zzQkq5Qjri8
 
 Perfect for backing up **master passwords**, **crypto private keys**, **2FA seeds**, **recovery phrases**, and **emergency access information**.
 
 ### Codebase mirrors
-👉 **GitHub:** https://github.com/declegacy/origamivault  
+👉 **GitHub:** https://github.com/declegacy/origamivault
 👉 **GitLab mirror:** https://gitlab.com/declegacy/origamivault
 
 ---
