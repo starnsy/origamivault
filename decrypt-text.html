@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decrypt Text | OrigamiVault - Encrypted Paper Storage</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="OrigamiVault — Encrypted Paper Storage">
+    <meta property="og:description" content="Offline. Secure. Printable. Recoverable. Encrypt sensitive data and store it on paper using QR codes.">
+    <meta property="og:image" content="social.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OrigamiVault — Encrypted Paper Storage">
+    <meta name="twitter:description" content="Offline. Secure. Printable. Recoverable. Encrypt sensitive data and store it on paper using QR codes.">
+    <meta name="twitter:image" content="social.png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #d5b882 0%, #f1ebda 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(116, 85, 48, 0.2);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            max-width: 120px;
+            height: auto;
+            margin: 0 auto 10px;
+        }
+
+        h1 {
+            color: #745530;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 27px;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, #745530 0%, #d5b882 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .explanation {
+            padding: 15px;
+            background: #f1ebda;
+            border-radius: 8px;
+            color: #745530;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #745530;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: 'SF Mono', 'Consolas', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #745530 0%, #d5b882 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f1ebda;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result.glow-animation {
+            animation: greenGlow 4s ease-in-out;
+        }
+
+        @keyframes greenGlow {
+            0%, 100% {
+                box-shadow: 0 0 0 rgba(76, 175, 80, 0);
+            }
+            8.33%, 41.67%, 75% {
+                box-shadow: 0 0 30px rgba(76, 175, 80, 0.8);
+            }
+            16.67%, 50%, 83.33% {
+                box-shadow: 0 0 0 rgba(76, 175, 80, 0);
+            }
+        }
+
+        .result h3 {
+            color: #745530;
+            margin-bottom: 10px;
+        }
+
+        .result code {
+            color: #745530;
+            line-height: 1.6;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            font-family: inherit;
+            display: block;
+        }
+
+        .error {
+            background: #fee;
+            border-left: 4px solid #f44;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            color: #c33;
+            display: none;
+        }
+
+        .success {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            color: #2e7d32;
+            display: none;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .link a {
+            color: #745530;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #745530;
+        }
+
+        .footer a {
+            color: #745530;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <a href="encrypt.html"><img src="logo.png" alt="OrigamiVault Logo" class="logo"></a>
+        </div>
+        <h1><span>OrigamiVault</span> — Decrypt Text</h1>
+
+        <div class="explanation">
+            <strong>Paste your encrypted content:</strong> Copy the encrypted base64 string from your printed page (between (S) and (E) markers) and paste it below along with your password to decrypt.
+        </div>
+
+        <div class="form-group">
+            <label for="encryptedText">Encrypted Content (Base64)</label>
+            <textarea id="encryptedText" placeholder="Paste your encrypted base64 string here..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" autocomplete="off" data-lpignore="true" data-form-type="other">
+        </div>
+
+        <button onclick="decryptContent()">Decrypt Content</button>
+
+        <div class="error" id="errorMsg"></div>
+        <div class="success" id="successMsg" style="display:none">Decryption has been successfully completed!</div>
+
+        <div class="result" id="result">
+            <h3>Decrypted Content:</h3>
+            <code id="decryptedContent"></code>
+        </div>
+
+        <div class="link">
+            <a href="decrypt.html">← Back to QR Decrypt</a> |
+            <a href="encrypt.html">Go to Encrypt Page</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="https://github.com/origamivault/origamivault" target="_blank">OrigamiVault</a> is an open source project
+    </div>
+
+    <script>
+        async function decryptContent() {
+            const encryptedText = document.getElementById('encryptedText').value.trim();
+            const password = document.getElementById('password').value;
+
+            hideMessages();
+
+            if (!encryptedText) {
+                showError('Please enter encrypted content');
+                return;
+            }
+
+            if (!password) {
+                showError('Please enter a password');
+                return;
+            }
+
+            // Clean the encrypted text - remove (S) and (E) markers if present
+            let cleanEncryptedData = encryptedText;
+            if (cleanEncryptedData.startsWith('(S)')) {
+                cleanEncryptedData = cleanEncryptedData.substring(3);
+            }
+            if (cleanEncryptedData.endsWith('(E)')) {
+                cleanEncryptedData = cleanEncryptedData.substring(0, cleanEncryptedData.length - 3);
+            }
+
+            // Remove any whitespace
+            cleanEncryptedData = cleanEncryptedData.replace(/\s+/g, '');
+
+            try {
+                // Decrypt using Web Crypto API (AES-CBC, 128-bit)
+                // Static salt and IV (matching encrypt.html)
+                const salt = new Uint8Array(16); // All zeros
+                const iv = new Uint8Array(16); // All zeros
+
+                // Decode base64 to Uint8Array
+                const ciphertext = new Uint8Array(atob(cleanEncryptedData).split('').map(c => c.charCodeAt(0)));
+
+                // Derive key from password
+                const encoder = new TextEncoder();
+                const passwordBytes = encoder.encode(password);
+
+                const keyMaterial = await crypto.subtle.importKey(
+                    'raw',
+                    passwordBytes,
+                    'PBKDF2',
+                    false,
+                    ['deriveKey']
+                );
+
+                const key = await crypto.subtle.deriveKey(
+                    {
+                        name: 'PBKDF2',
+                        salt: salt,
+                        iterations: 100000,
+                        hash: 'SHA-256'
+                    },
+                    keyMaterial,
+                    { name: 'AES-CBC', length: 128 },
+                    false,
+                    ['decrypt']
+                );
+
+                // Decrypt
+                const decryptedBuffer = await crypto.subtle.decrypt(
+                    { name: 'AES-CBC', iv: iv },
+                    key,
+                    ciphertext
+                );
+
+                const decoder = new TextDecoder();
+                const decryptedText = decoder.decode(decryptedBuffer);
+
+                if (!decryptedText) {
+                    throw new Error('Decryption failed - incorrect password');
+                }
+
+                // Display the decrypted content
+                document.getElementById('decryptedContent').textContent = decryptedText;
+                const resultDiv = document.getElementById('result');
+                resultDiv.style.display = 'block';
+                resultDiv.classList.add('glow-animation');
+
+                // Show success message
+                document.getElementById('successMsg').style.display = 'block';
+
+            } catch (error) {
+                showError('Decryption failed. Please check your encrypted content and password and try again.');
+                document.getElementById('result').style.display = 'none';
+                console.error(error);
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('errorMsg').textContent = message;
+            document.getElementById('errorMsg').style.display = 'block';
+        }
+
+        function hideMessages() {
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'none';
+        }
+
+        // Allow Enter key to decrypt (only in password field)
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('password').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    decryptContent();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
