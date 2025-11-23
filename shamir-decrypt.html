@@ -324,7 +324,7 @@
 <body>
     <div class="container">
         <div class="logo-container">
-            <img src="logo.png" alt="OrigamiVault Logo" class="logo">
+            <a href="encrypt.html"><img src="logo.png" alt="OrigamiVault Logo" class="logo"></a>
         </div>
         <h1><span>OrigamiVault</span><span class="separator"> — </span><span class="subtitle-text">Reconstruct</span></h1>
 
@@ -341,16 +341,24 @@
         <div id="inputSection">
             <div id="sharesList" class="shares-list"></div>
 
-            <div id="reader"></div>
-            <button id="startScanBtn" onclick="startScanner()">Scan QR Code</button>
-
-            <div style="text-align: center; margin: 20px 0; color: #999;">— or —</div>
-
-            <div class="form-group">
-                <label for="shareInput">Paste Share Data</label>
-                <textarea id="shareInput" placeholder="Paste share data here (e.g., [OV_SSS_1_2_3]base64data...)"></textarea>
+            <div id="scanSection">
+                <div id="reader"></div>
+                <button id="startScanBtn" onclick="startScanner()">Scan QR Code</button>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="#" onclick="showManualMode(); return false;" style="color: #745530;">Insert Text Manually</a>
+                </div>
             </div>
-            <button onclick="addPastedShare()">Add Share</button>
+
+            <div id="manualSection" style="display: none;">
+                <div class="form-group">
+                    <label for="shareInput">Paste Share Data</label>
+                    <textarea id="shareInput" placeholder="Paste share data here (e.g., [OV_SSS_1_2_3]base64data...)"></textarea>
+                </div>
+                <button onclick="addPastedShare()">Add Share</button>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="#" onclick="showScanMode(); return false;" style="color: #745530;">Scan QR Code Instead</a>
+                </div>
+            </div>
 
             <div id="reconstructBtn" style="display: none; margin-top: 20px;">
                 <button onclick="reconstructSecret()" style="background: #28a745;">Reconstruct Secret</button>
@@ -363,12 +371,16 @@
         </div>
 
         <div class="link">
-            <a href="shamir-encrypt.html">Split a New Secret</a> | <a href="encrypt.html">Password Encryption</a>
+            <a href="shamir-encrypt.html">Split a New Secret</a>
+        </div>
+
+        <div class="link">
+             <a href="encrypt.html">Password Encryption</a>
         </div>
     </div>
 
     <div class="footer">
-        <a href="https://github.com/origamivault/origamivault" target="_blank">OrigamiVault</a> is open source project
+        <a href="https://github.com/origamivault/origamivault" target="_blank">OrigamiVault</a> is open source. Use at your own risk.
     </div>
 
     <script>
@@ -644,6 +656,22 @@
             if (addShare(shareData)) {
                 input.value = '';
             }
+        }
+
+        function showManualMode() {
+            // Stop scanner if running
+            if (html5QrCode && html5QrCode.isScanning) {
+                html5QrCode.stop().then(() => {
+                    document.getElementById('startScanBtn').textContent = 'Scan QR Code';
+                });
+            }
+            document.getElementById('scanSection').style.display = 'none';
+            document.getElementById('manualSection').style.display = 'block';
+        }
+
+        function showScanMode() {
+            document.getElementById('manualSection').style.display = 'none';
+            document.getElementById('scanSection').style.display = 'block';
         }
 
         // ============================================

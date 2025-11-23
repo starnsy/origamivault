@@ -459,7 +459,7 @@
 <body>
     <div class="container">
         <div class="logo-container">
-            <img src="logo.png" alt="OrigamiVault Logo" class="logo">
+            <a href="encrypt.html"><img src="logo.png" alt="OrigamiVault Logo" class="logo"></a>
         </div>
         <h1><span>OrigamiVault</span><span class="separator"> — </span><span class="subtitle-text">Encrypted Paper Storage</span></h1>
 
@@ -468,7 +468,8 @@
         </div>
 
         <div class="explanation" id="securityTip" style="margin-bottom: 20px;">
-            <strong>Security tip:</strong> For maximum security, trust no third party and encrypt only a partial segment of your secret or password. Disconnect from the internet and use an incognito browser window during encryption or decryption. <a href="strategies.html" style="color: #745530;">More tips</a>
+            <strong>Security tip:</strong> Consider encrypting only part of your secret and storing the rest separately. For extra protection, use
+            incognito mode and go offline. <a href="strategies.html" style="color: #745530;">More tips</a>
         </div>
 
         <div id="formSection">
@@ -485,8 +486,11 @@
             <button onclick="encryptAndGenerateQR()">Encrypt & Generate Secure Paper</button>
 
             <div class="link">
-                <a href="decrypt.html">Go to Decrypt Page</a> 
-                <!-- | <a href="shamir-encrypt.html">Shamir Split (no password, <b>BETA</b>)</a> -->
+                <a href="decrypt.html">Go to Decrypt Page</a>
+            </div>
+
+            <div class="link">
+                <a href="shamir-encrypt.html">Shamir Secret Sharing Mode (Passwordless)</a>
             </div>
         </div>
 
@@ -494,7 +498,7 @@
     </div>
 
     <div class="footer">
-        <a href="https://github.com/origamivault/origamivault" target="_blank">OrigamiVault</a> is open source project
+        <a href="https://github.com/origamivault/origamivault" target="_blank">OrigamiVault</a> is open source. Use at your own risk.
     </div>
 
     <script>

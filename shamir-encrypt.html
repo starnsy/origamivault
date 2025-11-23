@@ -352,7 +352,7 @@
 <body>
     <div class="container">
         <div class="logo-container dont-print">
-            <img src="logo.png" alt="OrigamiVault Logo" class="logo">
+            <a href="encrypt.html"><img src="logo.png" alt="OrigamiVault Logo" class="logo"></a>
         </div>
         <h1><span>OrigamiVault</span><span class="separator"> — </span><span class="subtitle-text">Shamir Split</span></h1>
 
@@ -360,6 +360,10 @@
             <strong>Shamir's Secret Sharing:</strong> Split your secret into multiple shares. You'll need a minimum number of shares to reconstruct the original. No password required - the security is in distributing the shares.
             <br><br>
             <strong>Example:</strong> Split into 3 shares, require 2 to reconstruct. Give one to your spouse, one to your lawyer, keep one in your safe. Any 2 shares can recover the secret.
+        </div>
+
+        <div class="explanation dont-print" id="securityTip" style="margin-bottom: 20px;">
+            <strong>Security tip:</strong> Consider splitting only part of your secret and storing the rest separately. For extra protection, use incognito mode and go offline.
         </div>
 
         <div id="formSection">
@@ -389,7 +393,11 @@
             <button onclick="splitSecret()">Split into Shares</button>
 
             <div class="link">
-                <a href="shamir-decrypt.html">Go to Reconstruct Page</a> | <a href="encrypt.html">Password Encryption</a>
+                <a href="shamir-decrypt.html">Go to Shamir Reconstruct Page</a>
+            </div>
+
+            <div class="link">
+                <a href="encrypt.html">Password Encryption</a>
             </div>
         </div>
 
@@ -397,7 +405,7 @@
     </div>
 
     <div class="footer dont-print">
-        <a href="https://github.com/origamivault/origamivault" target="_blank">OrigamiVault</a> is open source project
+        <a href="https://github.com/origamivault/origamivault" target="_blank">OrigamiVault</a> is open source. Use at your own risk.
     </div>
 
     <script>
@@ -627,7 +635,10 @@
                 `).join('')}
                 <button class="print-button" onclick="window.print()">Print All Shares</button>
                 <div class="link dont-print" style="margin-top: 15px;">
-                    <a href="shamir-decrypt.html">Go to Reconstruct Page</a> |
+                    <a href="shamir-decrypt.html">Go to Shamir Reconstruct Page</a>
+                </div>
+
+                <div class="link dont-print" style="margin-top: 15px;">
                     <a href="shamir-encrypt.html">Split Another Secret</a>
                 </div>
             `;
