@@ -228,6 +228,33 @@
             color: #745530;
         }
 
+        .share-content {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .share-qr-section {
+            flex-shrink: 0;
+        }
+
+        .share-url-section {
+            margin-top: 15px;
+        }
+
+        .share-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .share-qr-note {
+            font-size: 12px;
+            color: #666;
+            text-align: left;
+            margin: 0 0 15px;
+            font-style: italic;
+        }
+
         .share-data-label {
             font-size: 12px;
             color: #666;
@@ -240,28 +267,7 @@
             color: #666;
         }
 
-        .share-qr-container {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .share-qr-main {
-            text-align: center;
-        }
-
-        .share-qr-link {
-            text-align: center;
-        }
-
-        .qr-label {
-            font-size: 11px;
-            color: #666;
-            margin-top: 5px;
-        }
-
+        
         .print-button {
             margin-top: 25px;
             background: #28a745;
@@ -596,24 +602,22 @@
                 ${shareStrings.map((shareStr, i) => `
                     <div class="share-card">
                         <h3>Share ${i + 1} of ${totalShares}</h3>
-                        <div class="share-qr-container">
-                            <div class="share-qr-link">
-                                <div id="qr-link-${i}"></div>
-                                <div class="qr-label">
-                                    Reconstruct App URL
-                                    <div><em style="font-size:80%">shamir-decrypt.html</em></div>
+                        <div class="share-content">
+                            <div class="share-qr-section">
+                                <div class="share-qr" id="qr-${i}"></div>
+                            </div>
+                            <div class="share-details">
+                                <div class="share-qr-note"><b>Scan with phone camera to begin reconstruction</b></div>
+                                <div class="share-data-label">Share Data (plain text):</div>
+                                <div class="share-data">${shareStr}</div>
+                                <div class="share-info">
+                                    Requires ${threshold} of ${totalShares} shares to reconstruct
                                 </div>
                             </div>
-                            <div class="share-qr-main">
-                                <div id="qr-${i}"></div>
-                                <div class="qr-label">Share Data</div>
-                            </div>
                         </div>
-                        <div class="share-data-label">Share Data (plain text):</div>
-                        <div class="share-data">${shareStr}</div>
-                        <div class="share-info">
-                            Requires ${threshold} of ${totalShares} shares to reconstruct<br>
-                            <div style="margin-top:12px">Reconstruct App URL: ${decryptUrl}</div>
+                        <div class="share-url-section">
+                            <div class="share-data-label">Manual reconstruct App URL:</div>
+                            <div class="share-data">${decryptUrl}</div>
                         </div>
                     </div>
                 `).join('')}
@@ -626,7 +630,6 @@
 
             // Generate QR codes for each share
             shareStrings.forEach((shareStr, i) => {
-                // Main QR with share data
                 const qrUrl = decryptUrl + '#' + encodeURIComponent(shareStr);
                 new QRCode(document.getElementById(`qr-${i}`), {
                     text: qrUrl,
@@ -635,16 +638,6 @@
                     colorDark: "#000000",
                     colorLight: "#ffffff",
                     correctLevel: QRCode.CorrectLevel.M
-                });
-
-                // Small QR with just decrypt page URL
-                new QRCode(document.getElementById(`qr-link-${i}`), {
-                    text: decryptUrl,
-                    width: 150,
-                    height: 150,
-                    colorDark: "#000000",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.L
                 });
             });
         }
