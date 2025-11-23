@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shamir Split | OrigamiVault - Encrypted Paper Storage</title>
+    <title>Shamir Split on Paper | OrigamiVault - Encrypted Paper Storage</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="logo.png">
@@ -354,7 +354,7 @@
         <div class="logo-container dont-print">
             <a href="encrypt.html"><img src="logo.png" alt="OrigamiVault Logo" class="logo"></a>
         </div>
-        <h1><span>OrigamiVault</span><span class="separator"> — </span><span class="subtitle-text">Shamir Split</span></h1>
+        <h1><span>OrigamiVault</span><span class="separator"> — </span><span class="subtitle-text">Shamir Split on Paper</span></h1>
 
         <div class="explanation dont-print" style="margin-bottom: 20px;">
             <strong>Shamir's Secret Sharing:</strong> Split your secret into multiple shares. You'll need a minimum number of shares to reconstruct the original. No password required - the security is in distributing the shares.
@@ -596,8 +596,9 @@
                 return `[OV_SSS_${share.x}_${threshold}_${totalShares}]${base64Data}`;
             });
 
-            // Hide form, show shares
+            // Hide form and explanation divs, show shares
             document.getElementById('formSection').style.display = 'none';
+            document.querySelectorAll('.container > .explanation').forEach(el => el.style.display = 'none');
             document.querySelector('h1').innerHTML = `<span>Shares Generated</span><span class="separator"> — </span><span class="subtitle-text">${threshold} of ${totalShares} required</span>`;
 
             const outputDiv = document.getElementById('sharesOutput');
