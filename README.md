@@ -4,7 +4,7 @@
 
 OrigamiVault is a tiny offline web app for **encrypting or splitting secrets** and printing them as **QR codes** and **OCR-friendly recovery JavaScript**. 
 
-👉 **Live app:** https://origamivault.github.io/origamivault/  
+👉 **Live app:** https://starnsy.github.io/origamivault/  
 👉 **Video demo:** https://www.youtube.com/watch?v=zzQkq5Qjri8  
 
 ![1116](https://github.com/user-attachments/assets/8a6c070e-3a5e-44d9-9110-1770f3de021c)
